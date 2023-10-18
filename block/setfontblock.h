@@ -18,7 +18,7 @@ public:
 
   [[nodiscard]] QString getCode() const override {
     return QString("SetFont font=%1")
-        .arg(encodeString(fontPicker->selectedFont().family()));
+        .arg(encodeString(fontPicker->selectedFont().toString()));
   }
 
 private:

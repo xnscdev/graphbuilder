@@ -15,11 +15,14 @@ public:
     auto *button = new QPushButton("Choose");
     connect(button, &QPushButton::clicked, [&]() {
       bool ok;
-      m_selectedFont =
-          QFontDialog::getFont(&ok, fontLabel->font(), nullptr, "Select Font");
+      m_selectedFont = QFontDialog::getFont(
+          &ok, fontLabel->font(), nullptr, "Select Font",
+          QFontDialog::FontDialogOption::DontUseNativeDialog);
       if (ok) {
-        fontLabel->setFont(m_selectedFont);
-        fontLabel->setText(m_selectedFont.family());
+        fontLabel->setText(
+            QString("%1 %2 %3")
+                .arg(m_selectedFont.family(), m_selectedFont.styleName(),
+                     QString::number(m_selectedFont.pointSize())));
         emit updated();
       }
     });
