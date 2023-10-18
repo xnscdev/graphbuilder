@@ -9,7 +9,8 @@ class LabeledWidget : public QWidget {
   Q_OBJECT
 
 public:
-  explicit LabeledWidget(const QString &label, QWidget *parent = nullptr) : QWidget(parent) {
+  explicit LabeledWidget(const QString &label, QWidget *parent = nullptr)
+      : QWidget(parent) {
     layout = new QHBoxLayout(this);
     layout->setSpacing(4);
     layout->setContentsMargins(0, 0, 0, 0);

@@ -16,7 +16,8 @@ public:
     m_spinBox->setMinimum(min);
     m_spinBox->setMaximum(max);
     m_spinBox->setValue(value);
-    m_spinBox->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Ignored);
+    m_spinBox->setSizePolicy(QSizePolicy::Policy::Expanding,
+                             QSizePolicy::Policy::Ignored);
     layout->addWidget(m_spinBox);
   }
 
