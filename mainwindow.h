@@ -19,11 +19,16 @@ public:
 private slots:
   void rebuild();
   void updateStatus(const QString &msg);
+  void doOpen();
+  void doSave();
+  void doSaveAs();
 
 private:
   void addBlock();
+  void saveFile(const QString &path);
 
   Ui::MainWindow *ui;
+  QString openFile;
 };
 
 #endif

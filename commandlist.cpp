@@ -1,6 +1,5 @@
 #include "commandlist.h"
-#include "block/favscaleblock.h"
-#include "block/setfontblock.h"
+#include "fileparser.h"
 
 #include <QKeyEvent>
 
@@ -11,7 +10,7 @@ CommandList::CommandList(QWidget *parent) : QListWidget(parent) {
 }
 
 void CommandList::addBlock(const QString &name) {
-  BlockWidget *block = makeBlock(name);
+  BlockWidget *block = FileParser::makeBlock(name);
   if (!block)
     return;
   connect(block, &BlockWidget::updated, this, &CommandList::updated);
@@ -22,7 +21,16 @@ void CommandList::addBlock(const QString &name) {
   emit updated();
 }
 
-QList<BlockWidget *> CommandList::getBlocks() {
+void CommandList::addBlock(BlockWidget *block, const BlockParams &params) {
+  connect(block, &BlockWidget::updated, this, &CommandList::updated);
+  auto *item = new QListWidgetItem;
+  addItem(item);
+  item->setSizeHint(block->minimumSizeHint());
+  setItemWidget(item, block);
+  block->setParams(params);
+}
+
+QList<BlockWidget *> CommandList::getBlocks() const {
   QList<BlockWidget *> blocks;
   for (int i = 0; i < count(); i++) {
     QListWidgetItem *widgetItem = item(i);
@@ -53,12 +61,4 @@ bool CommandList::eventFilter(QObject *object, QEvent *event) {
   if (object == this && event->type() == QEvent::ChildRemoved)
     emit updated();
   return QListWidget::eventFilter(object, event);
-}
-
-BlockWidget *CommandList::makeBlock(const QString &name) {
-  if (name == "SetFont")
-    return new SetFontBlock;
-  if (name == "FavScale")
-    return new FavScaleBlock;
-  return nullptr;
 }

@@ -19,10 +19,7 @@ public:
           &ok, fontLabel->font(), nullptr, "Select Font",
           QFontDialog::FontDialogOption::DontUseNativeDialog);
       if (ok) {
-        fontLabel->setText(
-            QString("%1 %2 %3")
-                .arg(m_selectedFont.family(), m_selectedFont.styleName(),
-                     QString::number(m_selectedFont.pointSize())));
+        updateLabel();
         emit updated();
       }
     });
@@ -35,10 +32,22 @@ public:
 
   [[nodiscard]] QFont selectedFont() const { return m_selectedFont; }
 
+  void setSelectedFont(const QFont &font) {
+    m_selectedFont = font;
+    updateLabel();
+  }
+
 signals:
   void updated();
 
 private:
+  void updateLabel() {
+    fontLabel->setText(QString("%1 %2 %3")
+                           .arg(m_selectedFont.family(),
+                                m_selectedFont.styleName(),
+                                QString::number(m_selectedFont.pointSize())));
+  }
+
   QLabel *fontLabel;
   QFont m_selectedFont;
 };

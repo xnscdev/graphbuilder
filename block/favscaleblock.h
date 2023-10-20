@@ -10,6 +10,7 @@ class FavScaleBlock : public BlockWidget {
 public:
   explicit FavScaleBlock(QWidget *parent = nullptr);
   [[nodiscard]] QString getCode() const override;
+  void setParams(const BlockParams &params) override;
   void paint(BuildContext &context) const override;
 
 private:

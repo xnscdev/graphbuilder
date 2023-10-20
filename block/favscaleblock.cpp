@@ -18,6 +18,11 @@ QString FavScaleBlock::getCode() const {
       .arg(maxBox->spinBox()->value());
 }
 
+void FavScaleBlock::setParams(const BlockParams &params) {
+  params.getInt("min", [&](int value) { minBox->spinBox()->setValue(value); });
+  params.getInt("max", [&](int value) { maxBox->spinBox()->setValue(value); });
+}
+
 void FavScaleBlock::paint(BuildContext &context) const {
   int min = minBox->spinBox()->value();
   int max = maxBox->spinBox()->value();

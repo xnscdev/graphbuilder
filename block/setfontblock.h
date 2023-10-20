@@ -10,6 +10,7 @@ class SetFontBlock : public BlockWidget {
 public:
   explicit SetFontBlock(QWidget *parent = nullptr);
   [[nodiscard]] QString getCode() const override;
+  void setParams(const BlockParams &params) override;
   void paint(BuildContext &context) const override;
 
 private:

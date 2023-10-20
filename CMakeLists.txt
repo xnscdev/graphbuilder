@@ -26,6 +26,10 @@ set(PROJECT_SOURCES
         graphview.h
         commandlist.cpp
         commandlist.h
+        fileparser.cpp
+        fileparser.h
+        blockparams.cpp
+        blockparams.h
         labeled/translucentlabel.h
         labeled/labeledwidget.h
         labeled/labeledspinbox.h

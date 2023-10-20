@@ -11,7 +11,8 @@ class CommandList : public QListWidget {
 public:
   explicit CommandList(QWidget *parent = nullptr);
   void addBlock(const QString &name);
-  QList<BlockWidget *> getBlocks();
+  void addBlock(BlockWidget *block, const BlockParams &params);
+  [[nodiscard]] QList<BlockWidget *> getBlocks() const;
 
 signals:
   void updated();
@@ -19,9 +20,6 @@ signals:
 protected:
   void keyPressEvent(QKeyEvent *event) override;
   bool eventFilter(QObject *object, QEvent *event) override;
-
-private:
-  static BlockWidget *makeBlock(const QString &name);
 };
 
 #endif

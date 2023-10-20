@@ -1,4 +1,5 @@
 #include "setfontblock.h"
+#include "fileparser.h"
 
 SetFontBlock::SetFontBlock(QWidget *parent)
     : BlockWidget("SetFont", BlockColors::graphSetup, parent) {
@@ -9,7 +10,16 @@ SetFontBlock::SetFontBlock(QWidget *parent)
 
 QString SetFontBlock::getCode() const {
   return QString("SetFont font=%1")
-      .arg(encodeString(fontPicker->selectedFont().toString()));
+      .arg(FileParser::encodeString(fontPicker->selectedFont().toString()));
+}
+
+void SetFontBlock::setParams(const BlockParams &params) {
+  params.getString("font", [&](const QString &fontData) {
+    QFont font;
+    if (!font.fromString(fontData))
+      throw FileParserException("Invalid font description");
+    fontPicker->setSelectedFont(font);
+  });
 }
 
 void SetFontBlock::paint(BuildContext &context) const {
