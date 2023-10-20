@@ -18,6 +18,7 @@ public:
 
 private slots:
   void rebuild();
+  void updateStatus(const QString &msg);
 
 private:
   void addBlock();

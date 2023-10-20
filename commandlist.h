@@ -18,6 +18,7 @@ signals:
 
 protected:
   void keyPressEvent(QKeyEvent *event) override;
+  bool eventFilter(QObject *object, QEvent *event) override;
 
 private:
   static BlockWidget *makeBlock(const QString &name);

@@ -8,18 +8,9 @@ class SetFontBlock : public BlockWidget {
   Q_OBJECT
 
 public:
-  explicit SetFontBlock(QWidget *parent = nullptr)
-      : BlockWidget("SetFont", BlockColors::graphSetup, parent) {
-    fontPicker = new LabeledFontPicker("font");
-    connect(fontPicker, &LabeledFontPicker::updated, this,
-            &BlockWidget::updated);
-    layout->addWidget(fontPicker, 1, 0);
-  }
-
-  [[nodiscard]] QString getCode() const override {
-    return QString("SetFont font=%1")
-        .arg(encodeString(fontPicker->selectedFont().toString()));
-  }
+  explicit SetFontBlock(QWidget *parent = nullptr);
+  [[nodiscard]] QString getCode() const override;
+  void paint(BuildContext &context) const override;
 
 private:
   LabeledFontPicker *fontPicker;

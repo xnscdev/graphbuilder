@@ -7,6 +7,7 @@
 CommandList::CommandList(QWidget *parent) : QListWidget(parent) {
   setDragDropMode(QAbstractItemView::InternalMove);
   setSpacing(5);
+  installEventFilter(this);
 }
 
 void CommandList::addBlock(const QString &name) {
@@ -40,10 +41,18 @@ void CommandList::keyPressEvent(QKeyEvent *event) {
     if (item) {
       takeItem(row(item));
       delete item;
+      emit updated();
     }
   } else {
     QListWidget::keyPressEvent(event);
   }
+}
+
+bool CommandList::eventFilter(QObject *object, QEvent *event) {
+  // This handles redrawing when an item is moved via drag and drop
+  if (object == this && event->type() == QEvent::ChildRemoved)
+    emit updated();
+  return QListWidget::eventFilter(object, event);
 }
 
 BlockWidget *CommandList::makeBlock(const QString &name) {

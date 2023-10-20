@@ -10,10 +10,16 @@ class GraphView : public QWidget {
 
 public:
   explicit GraphView(QWidget *parent = nullptr) : QWidget(parent) {}
-  void rebuild(const QList<BlockWidget *> &blocks);
+  void rebuild(const QList<BlockWidget *> &blocks_list);
+
+signals:
+  void statusUpdated(const QString &msg);
 
 protected:
   void paintEvent(QPaintEvent *event) override;
+
+private:
+  QList<BlockWidget *> blocks;
 };
 
 #endif

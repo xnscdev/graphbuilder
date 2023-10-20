@@ -1,6 +1,8 @@
 #ifndef BLOCKWIDGET_H
 #define BLOCKWIDGET_H
 
+#include "buildcontext.h"
+
 #include <QFrame>
 #include <QGridLayout>
 #include <QLabel>
@@ -14,6 +16,7 @@ public:
               QWidget *parent = nullptr);
   virtual ~BlockWidget() = default;
   [[nodiscard]] virtual QString getCode() const = 0;
+  virtual void paint(BuildContext &context) const = 0;
 
   static const QStringList blockNames;
 

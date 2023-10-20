@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
   connect(completer, QOverload<const QString &>::of(&QCompleter::activated),
           ui->blockEdit, &QLineEdit::clear, Qt::QueuedConnection);
   connect(ui->commandList, &CommandList::updated, this, &MainWindow::rebuild);
+  connect(ui->graphView, &GraphView::statusUpdated, this,
+          &MainWindow::updateStatus);
 }
 
 MainWindow::~MainWindow() {
@@ -25,6 +27,10 @@ MainWindow::~MainWindow() {
 
 void MainWindow::rebuild() {
   ui->graphView->rebuild(ui->commandList->getBlocks());
+}
+
+void MainWindow::updateStatus(const QString &msg) {
+  ui->statusBar->showMessage(msg, 3000);
 }
 
 void MainWindow::addBlock() {

@@ -30,9 +30,13 @@ set(PROJECT_SOURCES
         labeled/labeledwidget.h
         labeled/labeledspinbox.h
         labeled/labeledfontpicker.h
+        block/buildcontext.cpp
+        block/buildcontext.h
         block/blockwidget.cpp
         block/blockwidget.h
+        block/favscaleblock.cpp
         block/favscaleblock.h
+        block/setfontblock.cpp
         block/setfontblock.h
 )
 
