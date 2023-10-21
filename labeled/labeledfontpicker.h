@@ -16,7 +16,7 @@ public:
     connect(button, &QPushButton::clicked, [&]() {
       bool ok;
       m_selectedFont = QFontDialog::getFont(
-          &ok, fontLabel->font(), nullptr, "Select Font",
+          &ok, m_selectedFont, nullptr, "Select Font",
           QFontDialog::FontDialogOption::DontUseNativeDialog);
       if (ok) {
         updateLabel();

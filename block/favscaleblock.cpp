@@ -1,5 +1,7 @@
 #include "favscaleblock.h"
 
+#include <set>
+
 FavScaleBlock::FavScaleBlock(QWidget *parent)
     : GraphTemplateBlock("FavScale", BlockColors::graphTemplate, parent) {
   minBox = new LabeledSpinBox("min", 0);
@@ -82,27 +84,46 @@ void FavScaleBlock::paintData(BuildContext &context,
                               const QStringList &labels) const {
   int min = minBox->spinBox()->value();
   int max = maxBox->spinBox()->value();
-  QList<double> x = data[0];
-  int length = static_cast<int>(x.length());
-  context.painter.setBrush(Qt::black);
-  context.painter.setPen(Qt::transparent);
+  QList<double> xs = data[0];
   QFontMetrics fm(context.painter.font());
-  QList<QPoint> points;
+  int length = static_cast<int>(xs.length());
+  int fullRectPadding = fm.height() / 4;
+  int pointTextPadding = fm.height() * 4 / 5;
+  int pointSize = fm.height() / 3;
+  auto rectComparator = [](const QRect &a, const QRect &b) {
+    if (a.x() < b.x())
+      return true;
+    if (a.x() > b.x())
+      return false;
+    return a.y() < b.y();
+  };
+  std::set<QRect, decltype(rectComparator)> rects(rectComparator);
   for (int i = 0; i < length; i++) {
-    double y = 0.05 + 0.9 * (x[i] - min) / (max - min);
-    QPoint point = context.getPointTransformedY(dataStart, y);
-    points.append(point);
-    context.painter.drawEllipse(point, 5, 5);
-  }
-
-  // TODO Render overlapping items further to the right
-  context.painter.setBrush(Qt::BrushStyle::NoBrush);
-  context.painter.setPen(Qt::black);
-  for (int i = 0; i < length; i++) {
+    int y = context.transformY(0.05 + 0.9 * (xs[i] - min) / (max - min));
+    int x = context.transposeX(dataStart);
+    QPoint point(x, y);
     QRect textRect = fm.boundingRect(labels[i]);
-    QPoint point = points[i];
     textRect.moveCenter(point);
-    textRect.moveLeft(point.x() + fm.height());
+    textRect.moveLeft(point.x() + pointTextPadding);
+    QRect fullRect(textRect);
+    fullRect.adjust(-pointTextPadding - fullRectPadding - pointSize,
+                    -fullRectPadding, fullRectPadding, fullRectPadding);
+    for (auto &rect : rects) {
+      if (rect.intersects(fullRect)) {
+        int diff = rect.right() + fm.height() - x;
+        x += diff;
+        textRect.translate(diff, 0);
+        fullRect.translate(diff, 0);
+      }
+    }
+
+    context.painter.setBrush(Qt::black);
+    context.painter.setPen(Qt::transparent);
+    context.painter.drawEllipse(x, y, pointSize, pointSize);
+
+    context.painter.setBrush(Qt::BrushStyle::NoBrush);
+    context.painter.setPen(Qt::black);
     context.painter.drawText(textRect, Qt::AlignCenter, labels[i]);
+    rects.insert(fullRect);
   }
 }
