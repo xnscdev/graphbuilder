@@ -39,6 +39,7 @@ set(PROJECT_SOURCES
         block/buildcontext.h
         block/blockwidget.cpp
         block/blockwidget.h
+        block/graphtemplateblock.h
         block/favscaleblock.cpp
         block/favscaleblock.h
         block/setfontblock.cpp

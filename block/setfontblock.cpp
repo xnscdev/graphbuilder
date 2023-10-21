@@ -22,6 +22,6 @@ void SetFontBlock::setParams(const BlockParams &params) {
   });
 }
 
-void SetFontBlock::paint(BuildContext &context) const {
+void SetFontBlock::paint(BuildContext &context) {
   context.painter.setFont(fontPicker->selectedFont());
 }

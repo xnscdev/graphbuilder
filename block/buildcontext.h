@@ -3,6 +3,8 @@
 
 #include <QPainter>
 
+class GraphTemplateBlock;
+
 class BuildContextException : public std::exception {
 public:
   explicit BuildContextException(QString msg) : msg(std::move(msg)) {}
@@ -16,7 +18,7 @@ class BuildContext {
 public:
   explicit BuildContext(QPainter &painter, int width, int height)
       : painter(painter), width(width), height(height) {}
-  void setupGraph();
+  void setupGraph(const GraphTemplateBlock *block);
   static int axisIncrement(int min, int max);
 
   int transposeX(int x) { return graphTransform.x() + x; }
@@ -41,6 +43,10 @@ public:
     return {transposeX(x), transformY(y)};
   }
 
+  [[nodiscard]] const GraphTemplateBlock *getGraphBlock() const {
+    return graphBlock;
+  }
+
   QPainter &painter;
   int currHeight = padding;
   int currBlockId = 0;
@@ -51,6 +57,7 @@ private:
   int height;
   bool graphSetupDone = false;
   QRect graphTransform;
+  const GraphTemplateBlock *graphBlock = nullptr;
 };
 
 struct GraphTickInfo {

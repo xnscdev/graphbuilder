@@ -11,7 +11,7 @@ public:
   explicit Data1dBlock(QWidget *t = nullptr);
   [[nodiscard]] QString getCode() const override;
   void setParams(const BlockParams &params) override;
-  void paint(BuildContext &context) const override;
+  void paint(BuildContext &context) override;
 
 private:
   LabeledTable *table;

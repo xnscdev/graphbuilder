@@ -18,7 +18,7 @@ public:
   virtual ~BlockWidget() = default;
   [[nodiscard]] virtual QString getCode() const = 0;
   virtual void setParams(const BlockParams &params) = 0;
-  virtual void paint(BuildContext &context) const = 0;
+  virtual void paint(BuildContext &context) = 0;
 
   static const QStringList blockNames;
 

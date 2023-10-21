@@ -1,7 +1,7 @@
 #include "favscaleblock.h"
 
 FavScaleBlock::FavScaleBlock(QWidget *parent)
-    : BlockWidget("FavScale", BlockColors::graphTemplate, parent) {
+    : GraphTemplateBlock("FavScale", BlockColors::graphTemplate, parent) {
   minBox = new LabeledSpinBox("min", 0);
   maxBox = new LabeledSpinBox("max", 10);
   connect(minBox->spinBox(), &QSpinBox::valueChanged, this,
@@ -23,13 +23,13 @@ void FavScaleBlock::setParams(const BlockParams &params) {
   params.getInt("max", [&](int value) { maxBox->spinBox()->setValue(value); });
 }
 
-void FavScaleBlock::paint(BuildContext &context) const {
+void FavScaleBlock::paint(BuildContext &context) {
   int min = minBox->spinBox()->value();
   int max = maxBox->spinBox()->value();
   if (max <= min)
     throw BuildContextException("Max value must be greater than min value");
 
-  context.setupGraph();
+  context.setupGraph(this);
   context.painter.setPen(QPen(Qt::black, 1));
 
   int increment = BuildContext::axisIncrement(min, max);
@@ -74,4 +74,35 @@ void FavScaleBlock::paint(BuildContext &context) const {
   grad.setColorAt(1.0, Qt::red);
   context.painter.fillRect(bar, grad);
   context.painter.drawRect(bar);
+  dataStart = lineEnd + 80;
+}
+
+void FavScaleBlock::paintData(BuildContext &context,
+                              const QList<QList<double>> &data,
+                              const QStringList &labels) const {
+  int min = minBox->spinBox()->value();
+  int max = maxBox->spinBox()->value();
+  QList<double> x = data[0];
+  int length = static_cast<int>(x.length());
+  context.painter.setBrush(Qt::black);
+  context.painter.setPen(Qt::transparent);
+  QFontMetrics fm(context.painter.font());
+  QList<QPoint> points;
+  for (int i = 0; i < length; i++) {
+    double y = 0.05 + 0.9 * (x[i] - min) / (max - min);
+    QPoint point = context.getPointTransformedY(dataStart, y);
+    points.append(point);
+    context.painter.drawEllipse(point, 5, 5);
+  }
+
+  // TODO Render overlapping items further to the right
+  context.painter.setBrush(Qt::BrushStyle::NoBrush);
+  context.painter.setPen(Qt::black);
+  for (int i = 0; i < length; i++) {
+    QRect textRect = fm.boundingRect(labels[i]);
+    QPoint point = points[i];
+    textRect.moveCenter(point);
+    textRect.moveLeft(point.x() + fm.height());
+    context.painter.drawText(textRect, Qt::AlignCenter, labels[i]);
+  }
 }

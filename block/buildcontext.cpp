@@ -1,12 +1,13 @@
 #include "buildcontext.h"
 
-void BuildContext::setupGraph() {
+void BuildContext::setupGraph(const GraphTemplateBlock *block) {
   if (graphSetupDone)
     throw BuildContextException("A graph was already created.");
   graphTransform = QRect(padding, currHeight, width - padding * 2,
                          height - currHeight - padding);
   currHeight = height;
   graphSetupDone = true;
+  graphBlock = block;
 }
 
 int BuildContext::axisIncrement(int min, int max) {
