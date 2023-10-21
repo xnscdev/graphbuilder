@@ -2,6 +2,7 @@
 #include "block/data1dblock.h"
 #include "block/favscaleblock.h"
 #include "block/setfontblock.h"
+#include "block/titleblock.h"
 #include "blockparams.h"
 
 FileParser::FileParser(const QString &str) {
@@ -97,6 +98,8 @@ BlockWidget *FileParser::makeBlock(const QString &name) {
     return new FavScaleBlock;
   if (name == "Data1d")
     return new Data1dBlock;
+  if (name == "Title")
+    return new TitleBlock;
   return nullptr;
 }
 

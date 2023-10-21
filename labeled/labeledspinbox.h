@@ -12,19 +12,19 @@ public:
   explicit LabeledSpinBox(const QString &label, int value = 0, int min = -99999,
                           int max = 99999, QWidget *parent = nullptr)
       : LabeledWidget(label, parent) {
-    m_spinBox = new QSpinBox();
-    m_spinBox->setMinimum(min);
-    m_spinBox->setMaximum(max);
-    m_spinBox->setValue(value);
-    m_spinBox->setSizePolicy(QSizePolicy::Policy::Expanding,
+    m_lineEdit = new QSpinBox();
+    m_lineEdit->setMinimum(min);
+    m_lineEdit->setMaximum(max);
+    m_lineEdit->setValue(value);
+    m_lineEdit->setSizePolicy(QSizePolicy::Policy::Expanding,
                              QSizePolicy::Policy::Ignored);
-    layout->addWidget(m_spinBox);
+    layout->addWidget(m_lineEdit);
   }
 
-  [[nodiscard]] QSpinBox *spinBox() const { return m_spinBox; }
+  [[nodiscard]] QSpinBox *spinBox() const { return m_lineEdit; }
 
 private:
-  QSpinBox *m_spinBox;
+  QSpinBox *m_lineEdit;
 };
 
 #endif

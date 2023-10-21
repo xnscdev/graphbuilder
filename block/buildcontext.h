@@ -47,6 +47,9 @@ public:
     return graphBlock;
   }
 
+  [[nodiscard]] int getWidth() const { return width; }
+  [[nodiscard]] int getHeight() const { return height; }
+
   QPainter &painter;
   int currHeight = padding;
   int currBlockId = 0;

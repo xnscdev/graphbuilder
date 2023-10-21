@@ -35,6 +35,7 @@ set(PROJECT_SOURCES
         labeled/labeledspinbox.h
         labeled/labeledfontpicker.h
         labeled/labeledtable.h
+        labeled/labeledlineedit.h
         block/buildcontext.cpp
         block/buildcontext.h
         block/blockwidget.cpp
@@ -46,6 +47,8 @@ set(PROJECT_SOURCES
         block/setfontblock.h
         block/data1dblock.cpp
         block/data1dblock.h
+        block/titleblock.cpp
+        block/titleblock.h
 )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)

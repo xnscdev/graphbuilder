@@ -1,7 +1,8 @@
 #include "blockwidget.h"
 #include "labeled/translucentlabel.h"
 
-const QStringList BlockWidget::blockNames{"SetFont", "FavScale", "Data1d"};
+const QStringList BlockWidget::blockNames{"SetFont", "FavScale", "Data1d",
+                                          "Title"};
 
 BlockWidget::BlockWidget(const QString &name, const QColor &color,
                          QWidget *parent)
