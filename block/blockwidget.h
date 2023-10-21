@@ -33,8 +33,9 @@ private:
 };
 
 namespace BlockColors {
-const QColor graphSetup(79, 89, 232, 100);
+const QColor setup(79, 89, 232, 100);
 const QColor graphTemplate(0, 255, 0, 100);
+const QColor data(245, 179, 66, 100);
 } // namespace BlockColors
 
 #endif

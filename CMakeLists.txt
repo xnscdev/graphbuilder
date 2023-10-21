@@ -34,6 +34,7 @@ set(PROJECT_SOURCES
         labeled/labeledwidget.h
         labeled/labeledspinbox.h
         labeled/labeledfontpicker.h
+        labeled/labeledtable.h
         block/buildcontext.cpp
         block/buildcontext.h
         block/blockwidget.cpp
@@ -42,6 +43,8 @@ set(PROJECT_SOURCES
         block/favscaleblock.h
         block/setfontblock.cpp
         block/setfontblock.h
+        block/data1dblock.cpp
+        block/data1dblock.h
 )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)

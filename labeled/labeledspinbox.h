@@ -21,7 +21,7 @@ public:
     layout->addWidget(m_spinBox);
   }
 
-  QSpinBox *spinBox() const { return m_spinBox; }
+  [[nodiscard]] QSpinBox *spinBox() const { return m_spinBox; }
 
 private:
   QSpinBox *m_spinBox;

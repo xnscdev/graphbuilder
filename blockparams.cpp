@@ -27,7 +27,7 @@ void BlockParams::getInt(const QString &param,
   int paramValue = str.toInt(&ok);
   if (!ok)
     throw FileParserException(
-        QString("Value for parameter '%1' must be an integer, got %2")
+        QString("Value for parameter '%1' must be an integer, got '%2'")
             .arg(param, str[0]));
   setter(paramValue);
 }
