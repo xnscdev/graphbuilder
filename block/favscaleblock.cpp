@@ -6,23 +6,28 @@ FavScaleBlock::FavScaleBlock(QWidget *parent)
     : GraphTemplateBlock("FavScale", BlockColors::graphTemplate, parent) {
   minBox = new LabeledSpinBox("min", 0);
   maxBox = new LabeledSpinBox("max", 10);
+  invertedBox = new QCheckBox("inverted");
   connect(minBox->spinBox(), &QSpinBox::valueChanged, this,
           &BlockWidget::updated);
   connect(maxBox->spinBox(), &QSpinBox::valueChanged, this,
           &BlockWidget::updated);
+  connect(invertedBox, &QCheckBox::stateChanged, this, &BlockWidget::updated);
   layout->addWidget(minBox, 1, 0);
   layout->addWidget(maxBox, 1, 1);
+  layout->addWidget(invertedBox, 2, 0, 1, -1);
 }
 
 QString FavScaleBlock::getCode() const {
-  return QString("FavScale min=%1 max=%2")
+  return QString("FavScale min=%1 max=%2 inverted=%3")
       .arg(minBox->spinBox()->value())
-      .arg(maxBox->spinBox()->value());
+      .arg(maxBox->spinBox()->value())
+      .arg(invertedBox->isChecked());
 }
 
 void FavScaleBlock::setParams(const BlockParams &params) {
   params.getInt("min", [&](int value) { minBox->spinBox()->setValue(value); });
   params.getInt("max", [&](int value) { maxBox->spinBox()->setValue(value); });
+  params.getInt("inverted", [&](int value) { invertedBox->setChecked(value); });
 }
 
 void FavScaleBlock::paint(BuildContext &context) {
@@ -71,9 +76,15 @@ void FavScaleBlock::paint(BuildContext &context) {
   context.painter.setPen(QPen(Qt::black, 3));
   QRect bar = context.getRectTransformedY(lineEnd, 0, 40, 1);
   QLinearGradient grad(0, 0, 0, bar.height());
-  grad.setColorAt(0.0, Qt::green);
-  grad.setColorAt(0.5, Qt::yellow);
-  grad.setColorAt(1.0, Qt::red);
+  if (invertedBox->isChecked()) {
+    grad.setColorAt(0.0, Qt::red);
+    grad.setColorAt(0.5, Qt::yellow);
+    grad.setColorAt(1.0, Qt::green);
+  } else {
+    grad.setColorAt(0.0, Qt::green);
+    grad.setColorAt(0.5, Qt::yellow);
+    grad.setColorAt(1.0, Qt::red);
+  }
   context.painter.fillRect(bar, grad);
   context.painter.drawRect(bar);
   dataStart = lineEnd + 80;

@@ -4,6 +4,8 @@
 #include "graphtemplateblock.h"
 #include "labeled/labeledspinbox.h"
 
+#include <QCheckBox>
+
 class FavScaleBlock : public GraphTemplateBlock {
   Q_OBJECT
 
@@ -19,6 +21,7 @@ public:
 private:
   LabeledSpinBox *minBox;
   LabeledSpinBox *maxBox;
+  QCheckBox *invertedBox;
   int dataStart = 0;
 };
 
